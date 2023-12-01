@@ -10,7 +10,7 @@ foi utilizado mongodb como banco de dados e mongoose como ORM
 
 
 ## Pré-requisitos
-
+***Foi usada a versão 18 do node durante o desenvolvimento**
 Certifique-se de ter o Node.js e o npm, mongo instalados na sua máquina.
 
 ## Instalação
