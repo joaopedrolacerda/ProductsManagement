@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { connectToDatabase } from './infra/mongo';
+import routes from './routes';
 dotenv.config();
 
 const app = express();
@@ -11,6 +12,8 @@ app.use(express.json());
 
 connectToDatabase(MONGODB_URI)
 
+
+app.use(routes)
 app.listen(PORT, () => {
   console.log(`Server is running on PORT${PORT}`);
 });
