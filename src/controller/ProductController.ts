@@ -35,9 +35,7 @@ export class ProductController extends MainController{
   async getByDescription(req: Request, res:Response){
     try {
       const keyWord = req.params.keyWord;
-      console.log("keyword",keyWord)
       if(!keyWord || keyWord == 'null' || keyWord == undefined){
-        console.log("aqui ????")
         return res.status(400).json( {message:"Informe a palavra esperada"})
       }
       const productKeyWord = req.params.keyWord;

@@ -81,9 +81,44 @@ describe('Test end to end', () => {
       const paramNull = null
       const response = await request(app).get(`/products/specificDescription/${paramNull}`);
 
-      console.log(response.body.data)
       expect(response.statusCode).toBe(400);
       expect(response.body.message).toContain('Informe a palavra esperada');
+    });
+    it('should update some product', async () => {
+      const response = await request(app).get(`/products`);
+      const randomProduc = response.body.data[Math.floor(Math.random()*response.body.data.length)];
+      const update = await request(app).put(`/products/${randomProduc._id}`).send({name: "brusao",
+      price: 700})
+
+      expect(update.statusCode).toBe(200);
+      expect(update.body.message).toContain('item atualizado com sucesso');
+    });
+    it('should return error', async () => {
+      const paramNull = null
+      const response = await request(app).get(`/products`);
+   
+      const update = await request(app).put(`/products/${paramNull}`).send({name: "brusao",
+      price: 700})
+
+      expect(update.statusCode).toBe(400);
+      expect(update.body.message).toContain('Informe o id do item');
+    });
+    it('should delete item', async () => {
+      
+      const response = await request(app).get(`/products`);
+      const randomProduc = response.body.data[Math.floor(Math.random()*response.body.data.length)];
+      const del = await request(app).delete(`/products/${randomProduc._id}`)
+  
+      expect(del.statusCode).toBe(200);
+      expect(del.body.message).toContain('item deletado com sucesso com sucesso');
+    });
+    it('should return error hen delete item item', async () => {
+      const paramNull = null
+      
+      const del = await request(app).delete(`/products/${paramNull}`)
+  
+      expect(del.statusCode).toBe(400);
+      expect(del.body.message).toContain('Informe o id do item');
     });
   });
 });

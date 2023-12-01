@@ -27,12 +27,12 @@ export class MainController {
     try {
       const productId = req.params.id;
       
-      if(productId){
-        res.status(400).json({ message:"Informe o id do item"})
+      if(!productId  || productId == 'null' || productId == undefined){
+        return res.status(400).json({ message:"Informe o id do item"})
       }
 
       const product = await this.domain.update(productId,req.body);
-      return res.status(200).json({message:"item Cadastrado com sucesso", data: product})
+      return res.status(200).json({message:"item atualizado com sucesso", data: product})
     } catch (error) {
       return res.status(400).json({ message:"Ocorreu um erro ao Atualizar item"})
     }
@@ -40,8 +40,8 @@ export class MainController {
   async delete(req: Request, res:Response){
     try {
       const productId = req.params.id;
-      if(productId){
-        res.json({status:"300", message:"Informe o id do item"})
+      if(!productId || productId == 'null' || productId == undefined){
+        return res.status(400).json({ message:"Informe o id do item"})
       }
       await this.domain.delete(productId);
       return res.status(200).json({message:"item deletado com sucesso com sucesso"})
