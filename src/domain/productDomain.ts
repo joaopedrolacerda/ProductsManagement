@@ -12,15 +12,18 @@ export class ProductDomain {
     return this.model.findById(id);
   }
   async getByPrice(id: string) {
+    //@ts-ignore
+
     return this.model.findByPriceAbove(id);
   }
-  async getByDescription(keyWord){
+  async getByDescription(keyWord:string){
+    //@ts-ignore
     return this.model.findByDescriptionKeyWord(keyWord);
   }
   async save(data:any) {
     return this.model.create(data);
   }
-  async update(id,data:any) {
+  async update(id: string,data:any) {
     return this.model.findByIdAndUpdate(id,data);
   }
   async delete(id:any) {

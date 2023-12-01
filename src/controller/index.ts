@@ -1,54 +1,52 @@
 import { ProductDomain } from "../domain/productDomain";
 import {Request, Response} from "express"
 export class MainController {
-  domain:Promise<any>;
+  domain:any;
   constructor(domain: any){
     this.domain = new ProductDomain();
   }
   async get(req: Request, res:Response){
     try {
       const products = await this.domain.getAll();
-      return res.json({status:"200", message:"Registros listados com sucesso", data: products})
+      return res.status(200).json({ message:"Registros listados com sucesso", data: products})
 
     } catch (error) {
-      console.log(error)
-      return res.json({status:"200", message:"Nenhum registro encontrado",})
+      return res.status(400).json({ message:"Nenhum registro encontrado",})
     }
   }
   async save(req: Request, res:Response){
     try {
       const product = await this.domain.save(req.body);
-      return res.json({status:"200", message:"item Cadastrado com sucesso", data: product})
+      
+      return res.status(200).json({ message:"item Cadastrado com sucesso", data: product})
     } catch (error) {
-      console.log(error)
-      return res.json({status:"300", message:"Ocorreu um erro ao cadastrar item"})
+      return res.status(400).json({ message:"Ocorreu um erro ao cadastrar item"})
     }
   }
   async put(req: Request, res:Response){
     try {
-      if(!req.params && !req.params.id){
-        res.json({status:"300", message:"Informe o id do item"})
-      }
       const productId = req.params.id;
+      
+      if(productId){
+        res.status(400).json({ message:"Informe o id do item"})
+      }
 
       const product = await this.domain.update(productId,req.body);
-      return res.json({status:"200", message:"item Cadastrado com sucesso", data: product})
+      return res.status(200).json({message:"item Cadastrado com sucesso", data: product})
     } catch (error) {
-      console.log(error)
-      return res.json({status:"300", message:"Ocorreu um erro ao Atualizar item"})
+      return res.status(400).json({ message:"Ocorreu um erro ao Atualizar item"})
     }
   }
   async delete(req: Request, res:Response){
     try {
-      if(!req.params && !req.params.id){
+      const productId = req.params.id;
+      if(productId){
         res.json({status:"300", message:"Informe o id do item"})
       }
-      const productId = req.params.id;
       await this.domain.delete(productId);
-      return res.json({status:"200", message:"item deletado com sucesso com sucesso"})
+      return res.status(200).json({message:"item deletado com sucesso com sucesso"})
     } catch (error) {
-      console.log(error);
-      return res.json({status:"300", message:"Ocorreu um erro ao deletar item"})
+      return res.status(400).json({ message:"Ocorreu um erro ao deletar item"})
     }
   }
 }

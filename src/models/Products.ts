@@ -16,7 +16,6 @@ const ProductSchema: Schema = new Schema({
   versionKey: false, // Set versionKey option to false to remove __v field
 });
 
-
 ProductSchema.statics.findByPriceAbove = function (price: number): Promise<IProduct[]> {
   return this.find({ price: { $gt: price } }).exec();
 };
